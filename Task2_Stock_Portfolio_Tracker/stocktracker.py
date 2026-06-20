@@ -2,8 +2,9 @@ import csv
 import os
 from datetime import datetime
 
+
 STOCK_PRICES = {
-    "RELIANCE":  2925.00,   #
+    "RELIANCE":  2925.00,   
     "TCS":       3850.00,   
     "INFY":      1445.00,   
     "HDFCBANK":  1620.00,   
@@ -12,12 +13,12 @@ STOCK_PRICES = {
     "TATAMOTORS": 975.00,   
     "ONGC":       265.00,   
     "BAJFINANCE": 6900.00,  
-    "ICICIBANK":  1280.00,  
+    "ICICIBANK":  1280.00,
 }
 
 
 def show_available_stocks():
-    print("\n Available Stocks:")
+    print("\n Available  Stocks:")
     print(f"  {'Symbol':<12} {'Company':<30} {'Price (₹)':>10}")
     print("  " + "-" * 56)
     names = {
@@ -37,6 +38,7 @@ def show_available_stocks():
 
 
 def get_portfolio():
+    
     portfolio = {}
     print("\nEnter your stock holdings. Type 'done' when finished.")
     print("(Symbols are case-insensitive, e.g. tcs or TCS)\n")
@@ -57,10 +59,10 @@ def get_portfolio():
         try:
             qty = int(input(f"  How many shares of {symbol}? "))
             if qty <= 0:
-                print("    Please enter a positive number.\n")
+                print("  ️  Please enter a positive number.\n")
                 continue
         except ValueError:
-            print("    Invalid number, try again.\n")
+            print("  ️  Invalid number, try again.\n")
             continue
 
         if symbol in portfolio:
@@ -79,6 +81,7 @@ def format_inr(amount):
     n = len(integer_part)
     if n <= 3:
         return f"₹{integer_part}.{decimal_part}"
+    
     result = integer_part[-3:]
     integer_part = integer_part[:-3]
     while integer_part:
@@ -106,8 +109,9 @@ def calculate_summary(portfolio):
 
 
 def display_summary(rows, total):
+    
     print("\n" + "=" * 58)
-    print("         STOCK PORTFOLIO SUMMARY")
+    print("     STOCK PORTFOLIO SUMMARY")
     print("=" * 58)
     print(f"  {'Symbol':<12} {'Price (₹)':>12}  {'Qty':>5}  {'Value (₹)':>14}")
     print("  " + "-" * 50)
@@ -118,7 +122,7 @@ def display_summary(rows, total):
     print(f"  {'TOTAL':>31}  {format_inr(total):>14}")
     print("=" * 58)
 
-
+    
     if total >= 1_00_00_000:
         print(f"\n   Total Investment: ₹{total/1_00_00_000:.2f} Crore")
     elif total >= 1_00_000:
@@ -128,9 +132,10 @@ def display_summary(rows, total):
 
 
 def save_to_txt(rows, total, filename="portfolio_report.txt"):
+    
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(filename, "w", encoding="utf-8") as f:
-        f.write("CodeAlpha NSE/BSE Stock Portfolio Tracker\n")
+        f.write(" Stock Portfolio Tracker\n")
         f.write(f"Generated: {timestamp}\n")
         f.write("=" * 58 + "\n")
         f.write(f"{'Symbol':<12} {'Price (INR)':>14}  {'Qty':>5}  {'Value (INR)':>14}\n")
@@ -144,7 +149,6 @@ def save_to_txt(rows, total, filename="portfolio_report.txt"):
 
 
 def save_to_csv(rows, total, filename="portfolio_report.csv"):
-    """Save the portfolio summary to a .csv file."""
     with open(filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["Symbol", "Price (INR)", "Quantity", "Value (INR)"])
         writer.writeheader()
@@ -155,14 +159,14 @@ def save_to_csv(rows, total, filename="portfolio_report.csv"):
 
 def main():
     print("=" * 58)
-    print("    CodeAlpha NSE/BSE Stock Portfolio Tracker")
+    print("     Stock Portfolio Tracker")
     print("=" * 58)
 
     show_available_stocks()
     portfolio = get_portfolio()
 
     if not portfolio:
-        print("\n  No stocks entered. Exiting.")
+        print("\n️  No stocks entered. Exiting.")
         return
 
     rows, total = calculate_summary(portfolio)
@@ -174,7 +178,7 @@ def main():
     if save_choice in ["csv", "both"]:
         save_to_csv(rows, total)
 
-    print("\n Done! Thank you for using the NSE/BSE Portfolio Tracker.")
+    print("\n Done! Thank you for using the Stock Portfolio Tracker.")
 
 
 if __name__ == "__main__":
